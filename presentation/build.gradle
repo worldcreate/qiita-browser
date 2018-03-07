@@ -1,0 +1,23 @@
+apply plugin: 'kotlin'
+
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+configurations.all {
+    resolutionStrategy {
+        force "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
+    }
+}
+
+dependencies {
+    def presentationDependencies = rootProject.ext.cacheDependencies
+    def presentationTestDependencies = rootProject.ext.cacheTestDependencies
+
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation presentationDependencies.kotlin
+
+    compile project(':domain')
+
+}
