@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 apply plugin: 'kotlin-android'
-
+apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
 
 android {
@@ -41,12 +41,20 @@ dependencies {
 
 
     implementation project(':presentation')
+    implementation project(':data')
+    implementation project(':remote')
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation appDependencies.kotlin
     implementation appDependencies.appCompatV7
     implementation appDependencies.constraintLayout
+    implementation appDependencies.dagger
+    implementation appDependencies.daggerSupport
+    implementation appDependencies.rxAndroid
     androidTestImplementation appTestDependencies.junit
     androidTestImplementation appTestDependencies.androidRunner
     androidTestImplementation appTestDependencies.espressoCore
+
+    kapt appDependencies.daggerCompiler
+    kapt appDependencies.daggerProcessor
 }

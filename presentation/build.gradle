@@ -11,12 +11,14 @@ configurations.all {
 }
 
 dependencies {
-    def presentationDependencies = rootProject.ext.cacheDependencies
-    def presentationTestDependencies = rootProject.ext.cacheTestDependencies
+    def presentationDependencies = rootProject.ext.presentationDependencies
+    def presentationTestDependencies = rootProject.ext.presentationTestDependencies
 
     implementation fileTree(dir: 'libs', include: ['*.jar'])
 
     implementation presentationDependencies.kotlin
+    implementation presentationDependencies.dagger
+    implementation presentationDependencies.rxKotlin
 
     compile project(':domain')
 

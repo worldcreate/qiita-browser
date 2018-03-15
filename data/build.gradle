@@ -1,7 +1,18 @@
-apply plugin: 'java-library'
+apply plugin: 'kotlin'
 
 dependencies {
+    def dataDependencies = rootProject.ext.dataDependencies
+    def dataTestDependencies = rootProject.ext.dataTestDependencies
+
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compile project(':domain')
+
+    implementation dataDependencies.kotlin
+    implementation dataDependencies.javaxInject
+    implementation dataDependencies.rxKotlin
+
 }
 
 sourceCompatibility = JavaVersion.VERSION_1_8
