@@ -15,9 +15,7 @@ import work.snowglobe.domain.repository.PostRepository
 import work.snowglobe.qiitabrowser.BuildConfig
 import work.snowglobe.qiitabrowser.UiThread
 import work.snowglobe.qiitabrowser.injection.scope.PerApplication
-import work.snowglobe.remote.PostRemoteImpl
-import work.snowglobe.remote.PostService
-import work.snowglobe.remote.PostServiceFactory
+import work.snowglobe.remote.*
 
 /**
  * Module used to provide dependencies at an application-level.
@@ -31,16 +29,9 @@ open class ApplicationModule {
         return application
     }
 
-//    @Provides
-//    @PerApplication
-//    internal fun providePreferencesHelper(context: Context): PreferencesHelper {
-//        return PreferencesHelper(context)
-//    }
-
-
     @Provides
     @PerApplication
-    internal fun provideBufferooRepository(factory: PostDataStoreFactory,
+    internal fun providePostDataRepository(factory: PostDataStoreFactory,
                                            mapper: PostMapper): PostRepository {
         return PostDataRepository(factory, mapper)
     }
@@ -66,7 +57,13 @@ open class ApplicationModule {
 
     @Provides
     @PerApplication
-    internal fun provideBufferooService(): PostService {
+    internal fun providePostService(): PostService {
         return PostServiceFactory.makePostService(BuildConfig.DEBUG)
+    }
+
+    @Provides
+    @PerApplication
+    internal fun provideTagService(): TagService {
+        return TagServiceFactory.makeTagService(BuildConfig.DEBUG)
     }
 }

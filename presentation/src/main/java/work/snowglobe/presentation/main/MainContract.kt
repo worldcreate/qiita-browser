@@ -33,6 +33,7 @@ interface MainContract {
 
         fun retrievePosts()
 
+        fun retrieveTags()
     }
 
 }

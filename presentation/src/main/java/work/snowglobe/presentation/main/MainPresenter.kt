@@ -8,6 +8,7 @@ import javax.inject.Inject
 
 class MainPresenter @Inject constructor(val browseView: MainContract.View,
                                         val getQiitaUseCase: SingleUseCase<List<Post>, Void>,
+                                        val getTagsUseCase: SingleUseCase<List<Post>, Void>,
                                         val postMapper: PostMapper):
         MainContract.Presenter {
 
@@ -17,10 +18,15 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
 
     override fun start() {
         retrievePosts()
+        retrieveTags()
     }
 
     override fun stop() {
         getQiitaUseCase.dispose()
+    }
+
+    override fun retrieveTags() {
+        getTagsUseCase.execute(PostSubscriber())
     }
 
     override fun retrievePosts() {
