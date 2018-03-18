@@ -26,19 +26,22 @@ class MainActivity : AppCompatActivity(), MainContract.View {
 
     override fun showPosts(posts: List<PostView>) {
         Log.d("debug", posts.toString())
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     override fun hidePosts() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("TODO", "hide posts")
     }
 
     override fun showErrorState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("TODO", "show Error State")
     }
 
     override fun hideErrorState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("TODO", "hide Error State")
     }
 
     override fun showEmptyState() {
@@ -46,7 +49,8 @@ class MainActivity : AppCompatActivity(), MainContract.View {
     }
 
     override fun hideEmptyState() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Log.d("TODO", "hideEmptyState")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

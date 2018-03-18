@@ -13,8 +13,6 @@ interface PostRepository {
 
     fun clearPosts(): Completable
 
-    fun savePosts(posts: List<Post>): Completable
-
     fun getPosts(): Single<List<Post>>
 
 }

@@ -24,7 +24,7 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
     }
 
     override fun retrievePosts() {
-        getQiitaUseCase.execute(BufferooSubscriber())
+        getQiitaUseCase.execute(PostSubscriber())
     }
 
     internal fun handleGetPostsSuccess(posts: List<Post>) {
@@ -38,7 +38,7 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
         }
     }
 
-    inner class BufferooSubscriber: DisposableSingleObserver<List<Post>>() {
+    inner class PostSubscriber: DisposableSingleObserver<List<Post>>() {
 
         override fun onSuccess(t: List<Post>) {
             handleGetPostsSuccess(t)

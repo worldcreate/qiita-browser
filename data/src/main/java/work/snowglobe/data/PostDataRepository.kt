@@ -22,25 +22,9 @@ class PostDataRepository @Inject constructor(private val factory: PostDataStoreF
         TODO()
     }
 
-    override fun savePosts(posts: List<Post>): Completable {
-        val postEntities = posts.map { postMapper.mapToEntity(it) }
-        return savePostEntities(postEntities)
-    }
-
-    private fun savePostEntities(bufferoos: List<PostEntity>): Completable {
-        TODO()
-    }
-
     override fun getPosts(): Single<List<Post>> {
         val dataStore = factory.retrieveDataStore()
         return dataStore.getPosts()
-                .flatMap {
-                    if (dataStore is PostRemoteDataStore) {
-                        savePostEntities(it).toSingle { it }
-                    } else {
-                        Single.just(it)
-                    }
-                }
                 .map { list ->
                     list.map { listItem ->
                         postMapper.mapFromEntity(listItem)
