@@ -2,7 +2,6 @@ package work.snowglobe.remote
 
 import io.reactivex.Single
 import retrofit2.http.GET
-import work.snowglobe.remote.model.PostModel
 import work.snowglobe.remote.model.TagModel
 
 /**
@@ -11,10 +10,6 @@ import work.snowglobe.remote.model.TagModel
 interface TagService {
 
     @GET("users/sogrnwil/following_tags")
-    fun getFollowingTags(): Single<TagResponse>
-
-    class TagResponse {
-        lateinit var tag: List<TagModel>
-    }
+    fun getFollowingTags(): Single<List<TagModel>>
 
 }

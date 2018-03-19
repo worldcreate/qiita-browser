@@ -5,11 +5,13 @@ import dagger.Provides
 import work.snowglobe.domain.executor.PostExecutionThread
 import work.snowglobe.domain.executor.ThreadExecutor
 import work.snowglobe.domain.interactor.post.GetPosts
-import work.snowglobe.domain.interactor.post.GetTags
+import work.snowglobe.domain.interactor.tag.GetTags
 import work.snowglobe.domain.repository.PostRepository
+import work.snowglobe.domain.repository.TagRepository
 import work.snowglobe.presentation.main.MainContract
 import work.snowglobe.presentation.main.MainPresenter
 import work.snowglobe.presentation.mapper.PostMapper
+import work.snowglobe.presentation.mapper.TagMapper
 import work.snowglobe.qiitabrowser.view.MainActivity
 
 
@@ -28,9 +30,10 @@ open class MainActivityModule {
     internal fun provideMainPresenter(mainView: MainContract.View,
                                       getPosts: GetPosts,
                                       getTags: GetTags,
-                                      mapper: PostMapper):
+                                      postMapper: PostMapper,
+                                      tagMapper: TagMapper):
             MainContract.Presenter {
-        return MainPresenter(mainView, getPosts, getTags, mapper)
+        return MainPresenter(mainView, getPosts, getTags, postMapper, tagMapper)
     }
 
     @Provides
@@ -41,10 +44,10 @@ open class MainActivityModule {
     }
 
     @Provides
-    internal fun provideGetTags(postRepository: PostRepository,
-                                 threadExecutor: ThreadExecutor,
-                                 postExecutionThread: PostExecutionThread): GetTags {
-        return GetTags(postRepository, threadExecutor, postExecutionThread)
+    internal fun provideGetTags(tagRepository: TagRepository,
+                                threadExecutor: ThreadExecutor,
+                                postExecutionThread: PostExecutionThread): GetTags {
+        return GetTags(tagRepository, threadExecutor, postExecutionThread)
     }
 
 }

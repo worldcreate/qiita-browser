@@ -3,13 +3,16 @@ package work.snowglobe.presentation.main
 import io.reactivex.observers.DisposableSingleObserver
 import work.snowglobe.domain.interactor.SingleUseCase
 import work.snowglobe.domain.model.Post
+import work.snowglobe.domain.model.Tag
 import work.snowglobe.presentation.mapper.PostMapper
+import work.snowglobe.presentation.mapper.TagMapper
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(val browseView: MainContract.View,
                                         val getQiitaUseCase: SingleUseCase<List<Post>, Void>,
-                                        val getTagsUseCase: SingleUseCase<List<Post>, Void>,
-                                        val postMapper: PostMapper):
+                                        val getTagsUseCase: SingleUseCase<List<Tag>, Void>,
+                                        val postMapper: PostMapper,
+                                        val tagMapper: TagMapper):
         MainContract.Presenter {
 
     init {
@@ -26,7 +29,7 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
     }
 
     override fun retrieveTags() {
-        getTagsUseCase.execute(PostSubscriber())
+        getTagsUseCase.execute(TagSubscriber())
     }
 
     override fun retrievePosts() {
@@ -44,6 +47,17 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
         }
     }
 
+    internal fun handleGetTagsSuccess(tags: List<Tag>) {
+        browseView.hideErrorState()
+        if (tags.isNotEmpty()) {
+            browseView.hideEmptyState()
+            browseView.showTags(tags.map { tagMapper.mapToView(it) })
+        } else {
+            browseView.hidePosts()
+            browseView.showEmptyState()
+        }
+    }
+
     inner class PostSubscriber: DisposableSingleObserver<List<Post>>() {
 
         override fun onSuccess(t: List<Post>) {
@@ -53,7 +67,21 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
         override fun onError(exception: Throwable) {
             browseView.hidePosts()
             browseView.hideEmptyState()
-            browseView.showErrorState()
+            browseView.showErrorState(exception)
+        }
+
+    }
+
+    inner class TagSubscriber: DisposableSingleObserver<List<Tag>>() {
+
+        override fun onSuccess(t: List<Tag>) {
+            handleGetTagsSuccess(t)
+        }
+
+        override fun onError(exception: Throwable) {
+            browseView.hidePosts()
+            browseView.hideEmptyState()
+            browseView.showErrorState(exception)
         }
 
     }

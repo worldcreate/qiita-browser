@@ -24,7 +24,7 @@ object TagServiceFactory {
 
     private fun makePostService(okHttpClient: OkHttpClient, gson: Gson): TagService {
         val retrofit = Retrofit.Builder()
-                .baseUrl("https://qiita.com/api/v2")
+                .baseUrl("https://qiita.com/api/v2/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
