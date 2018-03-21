@@ -1,7 +1,7 @@
 package work.snowglobe.presentation.main
 
 import io.reactivex.observers.DisposableSingleObserver
-import work.snowglobe.domain.interactor.SingleUseCase
+import work.snowglobe.domain.interactor.home.HomeUseCase
 import work.snowglobe.domain.model.Post
 import work.snowglobe.domain.model.Tag
 import work.snowglobe.presentation.mapper.PostMapper
@@ -9,10 +9,9 @@ import work.snowglobe.presentation.mapper.TagMapper
 import javax.inject.Inject
 
 class MainPresenter @Inject constructor(val browseView: MainContract.View,
-                                        val getQiitaUseCase: SingleUseCase<List<Post>, Void>,
-                                        val getTagsUseCase: SingleUseCase<List<Tag>, Void>,
-                                        val postMapper: PostMapper,
-                                        val tagMapper: TagMapper):
+                                        private val homeUseCase: HomeUseCase,
+                                        private val postMapper: PostMapper,
+                                        private val tagMapper: TagMapper):
         MainContract.Presenter {
 
     init {
@@ -25,15 +24,15 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
     }
 
     override fun stop() {
-        getQiitaUseCase.dispose()
+        homeUseCase.dispose()
     }
 
     override fun retrieveTags() {
-        getTagsUseCase.execute(TagSubscriber())
+        homeUseCase.retrieveTags(TagSubscriber())
     }
 
     override fun retrievePosts() {
-        getQiitaUseCase.execute(PostSubscriber())
+        homeUseCase.retrievePosts(PostSubscriber())
     }
 
     internal fun handleGetPostsSuccess(posts: List<Post>) {

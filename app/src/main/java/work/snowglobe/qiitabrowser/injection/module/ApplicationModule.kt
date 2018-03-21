@@ -77,12 +77,12 @@ open class ApplicationModule {
     @Provides
     @PerApplication
     internal fun providePostService(): PostService {
-        return PostServiceFactory.makePostService(BuildConfig.DEBUG)
+        return QiitaServiceFactory.makePostService(BuildConfig.DEBUG)
     }
 
     @Provides
     @PerApplication
     internal fun provideTagService(): TagService {
-        return TagServiceFactory.makeTagService(BuildConfig.DEBUG)
+        return QiitaServiceFactory.makeTagService(BuildConfig.DEBUG)
     }
 }

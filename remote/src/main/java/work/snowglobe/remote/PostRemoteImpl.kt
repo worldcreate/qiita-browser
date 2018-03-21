@@ -21,7 +21,7 @@ class PostRemoteImpl @Inject constructor(private val postService: PostService,
     override fun getPosts(): Single<List<PostEntity>> {
         return postService.getPosts()
                 .map {
-                    it.team.map { listItem ->
+                    it.posts.map { listItem ->
                         entityMapper.mapFromRemote(listItem)
                     }
                 }

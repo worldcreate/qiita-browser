@@ -4,8 +4,7 @@ import dagger.Module
 import dagger.Provides
 import work.snowglobe.domain.executor.PostExecutionThread
 import work.snowglobe.domain.executor.ThreadExecutor
-import work.snowglobe.domain.interactor.post.GetPosts
-import work.snowglobe.domain.interactor.tag.GetTags
+import work.snowglobe.domain.interactor.home.HomeUseCaseImpl
 import work.snowglobe.domain.repository.PostRepository
 import work.snowglobe.domain.repository.TagRepository
 import work.snowglobe.presentation.main.MainContract
@@ -28,26 +27,19 @@ open class MainActivityModule {
 
     @Provides
     internal fun provideMainPresenter(mainView: MainContract.View,
-                                      getPosts: GetPosts,
-                                      getTags: GetTags,
+                                      homeUseCase: HomeUseCaseImpl,
                                       postMapper: PostMapper,
                                       tagMapper: TagMapper):
             MainContract.Presenter {
-        return MainPresenter(mainView, getPosts, getTags, postMapper, tagMapper)
+        return MainPresenter(mainView, homeUseCase, postMapper, tagMapper)
     }
 
     @Provides
-    internal fun provideGetPosts(postRepository: PostRepository,
+    internal fun provideHomeUseCase(postRepository: PostRepository,
+                                 tagRepository: TagRepository,
                                  threadExecutor: ThreadExecutor,
-                                 postExecutionThread: PostExecutionThread): GetPosts {
-        return GetPosts(postRepository, threadExecutor, postExecutionThread)
-    }
-
-    @Provides
-    internal fun provideGetTags(tagRepository: TagRepository,
-                                threadExecutor: ThreadExecutor,
-                                postExecutionThread: PostExecutionThread): GetTags {
-        return GetTags(tagRepository, threadExecutor, postExecutionThread)
+                                 postExecutionThread: PostExecutionThread): HomeUseCaseImpl {
+        return HomeUseCaseImpl(postRepository, tagRepository, threadExecutor, postExecutionThread)
     }
 
 }

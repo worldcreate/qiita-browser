@@ -2,6 +2,7 @@ package work.snowglobe.remote
 
 import io.reactivex.Single
 import retrofit2.http.GET
+import retrofit2.http.Path
 import work.snowglobe.remote.model.PostModel
 
 /**
@@ -9,11 +10,11 @@ import work.snowglobe.remote.model.PostModel
  */
 interface PostService {
 
-    @GET("team.json")
+    @GET("tags/{tagId}/items")
     fun getPosts(): Single<PostResponse>
 
     class PostResponse {
-        lateinit var team: List<PostModel>
+        lateinit var posts: List<PostModel>
     }
 
 }

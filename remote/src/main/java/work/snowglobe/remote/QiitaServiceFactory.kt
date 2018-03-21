@@ -14,22 +14,35 @@ import java.util.concurrent.TimeUnit
  * Provide "make" methods to create instances of [BufferooService]
  * and its related dependencies, such as OkHttpClient, Gson, etc.
  */
-object TagServiceFactory {
+object QiitaServiceFactory {
+
+    fun makePostService(isDebug: Boolean): PostService {
+        val okHttpClient = makeOkHttpClient(
+                makeLoggingInterceptor(isDebug))
+        return makePostService(makeRetrofit(okHttpClient, makeGson()))
+    }
+
+    private fun makePostService(retrofit: Retrofit): PostService {
+        return retrofit.create(PostService::class.java)
+    }
 
     fun makeTagService(isDebug: Boolean): TagService {
         val okHttpClient = makeOkHttpClient(
                 makeLoggingInterceptor(isDebug))
-        return makePostService(okHttpClient, makeGson())
+        return makeTagService(makeRetrofit(okHttpClient, makeGson()))
     }
 
-    private fun makePostService(okHttpClient: OkHttpClient, gson: Gson): TagService {
-        val retrofit = Retrofit.Builder()
+    private fun makeTagService(retrofit: Retrofit): TagService {
+        return retrofit.create(TagService::class.java)
+    }
+
+    private fun makeRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
+        return Retrofit.Builder()
                 .baseUrl("https://qiita.com/api/v2/")
                 .client(okHttpClient)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build()
-        return retrofit.create(TagService::class.java)
     }
 
     private fun makeOkHttpClient(httpLoggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
