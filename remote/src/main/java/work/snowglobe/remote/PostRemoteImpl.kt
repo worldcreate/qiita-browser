@@ -18,10 +18,10 @@ class PostRemoteImpl @Inject constructor(private val postService: PostService,
     /**
      * Retrieve a list of [BufferooEntity] instances from the [BufferooService].
      */
-    override fun getPosts(): Single<List<PostEntity>> {
-        return postService.getPosts()
+    override fun getPosts(tagId: String): Single<List<PostEntity>> {
+        return postService.getPosts(tagId)
                 .map {
-                    it.posts.map { listItem ->
+                    it.map { listItem ->
                         entityMapper.mapFromRemote(listItem)
                     }
                 }

@@ -5,9 +5,9 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import io.reactivex.subscribers.DisposableSubscriber
 import work.snowglobe.domain.executor.PostExecutionThread
 import work.snowglobe.domain.executor.ThreadExecutor
-import work.snowglobe.domain.interactor.home.HomeUseCase
 import work.snowglobe.domain.model.Post
 import work.snowglobe.domain.model.Tag
 import work.snowglobe.domain.repository.PostRepository
@@ -33,12 +33,32 @@ open class HomeUseCaseImpl @Inject constructor(
         addDisposable(single.subscribeWith(singleObserver))
     }
 
-    override fun retrievePosts(singleObserver: DisposableSingleObserver<List<Post>>) {
-        val single = postRepository.getPosts()
+    override fun retrievePosts(subscriber: DisposableSubscriber<List<Post>>) {
+        val single = tagRepository.getTags()
                 .subscribeOn(Schedulers.from(threadExecutor))
-                .observeOn(postExecutionThread.scheduler) as Single<List<Post>>
-        addDisposable(single.subscribeWith(singleObserver))
+                .observeOn(postExecutionThread.scheduler) as Single<List<Tag>>
+        addDisposable(single.subscribeWith(PostSubscriber(subscriber)))
     }
+
+    inner class PostSubscriber constructor(private val singleObserver: DisposableSubscriber<List<Post>>): DisposableSingleObserver<List<Tag>>() {
+        override fun onSuccess(t: List<Tag>) {
+            val list = ArrayList<Single<List<Post>>>()
+
+            for (tag in t) {
+                list.add(postRepository.getPosts(tag.id)
+                        .subscribeOn(Schedulers.from(threadExecutor))
+                        .observeOn(postExecutionThread.scheduler))
+            }
+
+            addDisposable(Single.merge(list).subscribeWith(singleObserver))
+        }
+
+        override fun onError(exception: Throwable) {
+
+        }
+
+    }
+
 
     /**
      * Dispose from current [CompositeDisposable].

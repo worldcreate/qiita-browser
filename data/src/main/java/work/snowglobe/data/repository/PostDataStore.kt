@@ -15,6 +15,6 @@ interface PostDataStore {
 
     fun savePosts(posts: List<PostEntity>): Completable
 
-    fun getPosts(): Single<List<PostEntity>>
+    fun getPosts(tagId: String): Single<List<PostEntity>>
 
 }

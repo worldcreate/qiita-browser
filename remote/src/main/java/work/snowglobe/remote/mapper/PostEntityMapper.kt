@@ -1,7 +1,7 @@
 package work.snowglobe.remote.mapper
 
 import work.snowglobe.data.model.PostEntity
-import work.snowglobe.remote.model.PostModel
+import work.snowglobe.remote.model.post.PostModel
 import javax.inject.Inject
 
 /**
@@ -14,7 +14,7 @@ open class PostEntityMapper @Inject constructor(): EntityMapper<PostModel, PostE
      * Map an instance of a [BufferooModel] to a [BufferooEntity] model
      */
     override fun mapFromRemote(type: PostModel): PostEntity {
-        return PostEntity(type.name, type.title, type.avatar)
+        return PostEntity(type.id, type.title, type.url)
     }
 
 }

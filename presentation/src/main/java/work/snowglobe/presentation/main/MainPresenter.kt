@@ -1,6 +1,7 @@
 package work.snowglobe.presentation.main
 
 import io.reactivex.observers.DisposableSingleObserver
+import io.reactivex.subscribers.DisposableSubscriber
 import work.snowglobe.domain.interactor.home.HomeUseCase
 import work.snowglobe.domain.model.Post
 import work.snowglobe.domain.model.Tag
@@ -57,9 +58,12 @@ class MainPresenter @Inject constructor(val browseView: MainContract.View,
         }
     }
 
-    inner class PostSubscriber: DisposableSingleObserver<List<Post>>() {
+    inner class PostSubscriber: DisposableSubscriber<List<Post>>() {
+        override fun onComplete() {
+//            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        }
 
-        override fun onSuccess(t: List<Post>) {
+        override fun onNext(t: List<Post>) {
             handleGetPostsSuccess(t)
         }
 

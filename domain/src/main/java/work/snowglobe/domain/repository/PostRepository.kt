@@ -13,6 +13,6 @@ interface PostRepository {
 
     fun clearPosts(): Completable
 
-    fun getPosts(): Single<List<Post>>
+    fun getPosts(tagId: String): Single<List<Post>>
 
 }

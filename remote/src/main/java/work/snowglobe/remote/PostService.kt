@@ -3,7 +3,7 @@ package work.snowglobe.remote
 import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
-import work.snowglobe.remote.model.PostModel
+import work.snowglobe.remote.model.post.PostModel
 
 /**
  * Defines the abstract methods used for interacting with the Bufferoo API
@@ -11,10 +11,5 @@ import work.snowglobe.remote.model.PostModel
 interface PostService {
 
     @GET("tags/{tagId}/items")
-    fun getPosts(): Single<PostResponse>
-
-    class PostResponse {
-        lateinit var posts: List<PostModel>
-    }
-
+    fun getPosts(@Path("tagId") tagId: String): Single<List<PostModel>>
 }

@@ -1,15 +1,13 @@
 package work.snowglobe.qiitabrowser.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import dagger.android.AndroidInjection
 import work.snowglobe.presentation.main.MainContract
 import work.snowglobe.presentation.model.PostView
 import work.snowglobe.presentation.model.TagView
 import work.snowglobe.qiitabrowser.R
-import java.io.OutputStream
-import java.io.PrintStream
 import java.io.PrintWriter
 import java.io.StringWriter
 import javax.inject.Inject

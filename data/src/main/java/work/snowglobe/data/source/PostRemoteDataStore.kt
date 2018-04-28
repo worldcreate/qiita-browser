@@ -25,8 +25,8 @@ open class PostRemoteDataStore @Inject constructor(private val postRemote: PostR
     /**
      * Retrieve a list of [BufferooEntity] instances from the API
      */
-    override fun getPosts(): Single<List<PostEntity>> {
-        return postRemote.getPosts()
+    override fun getPosts(tagId: String): Single<List<PostEntity>> {
+        return postRemote.getPosts(tagId)
     }
 
 }

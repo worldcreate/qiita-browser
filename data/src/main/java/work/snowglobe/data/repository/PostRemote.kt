@@ -12,6 +12,6 @@ interface PostRemote {
     /**
      * Retrieve a list of Bufferoos, from the cache
      */
-    fun getPosts(): Single<List<PostEntity>>
+    fun getPosts(tagId: String): Single<List<PostEntity>>
 
 }
